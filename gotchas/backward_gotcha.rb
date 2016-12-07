@@ -7,10 +7,17 @@ class BackwardGotcha < Gotcha::Base
 
   def initialize
     string_length = rand(MAX_STRING_LENGTH - MIN_STRING_LENGTH) + MIN_STRING_LENGTH
-    string = (0...string_length).collect { CHARS[Kernel.rand(CHARS.length)] }.join
+    @string = (0...string_length).collect { CHARS[Kernel.rand(CHARS.length)] }.join
 
-    @question = "What is '#{string}' backwards?"
-    @answer = string.reverse
+    @answer = @string.reverse
+  end
+
+  def default_i18n_question
+    "What is '%{string}' backwards?"
+  end
+
+  def i18n_interpolations
+    { :string => @string }
   end
 
 end

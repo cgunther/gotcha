@@ -9,7 +9,15 @@ describe BackwardGotcha do
 
   it 'should be able to ask a question' do
     gotcha = Gotcha.random
-    gotcha.question.should_not be_empty
+    gotcha.question.should match(/\AWhat is '[a-z0-9]+' backwards\?\z/)
+  end
+
+  it 'can internationalize the question' do
+    gotcha = Gotcha.random
+
+    store_translations(:en, :gotcha => { :backward_gotcha => { :question => "Spell '%{string}' backwards" } }) do
+      gotcha.question.should match(/\ASpell '[a-z0-9]+' backwards\z/)
+    end
   end
 
 end

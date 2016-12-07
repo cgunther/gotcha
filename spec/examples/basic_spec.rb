@@ -9,8 +9,11 @@ describe Gotcha do
   before :all do
     class NextNumberGotcha < Gotcha::Base
       def initialize
-        @question = '1, 2, 3, ?'
         @answer = 4
+      end
+
+      def default_i18n_question
+        '1, 2, 3, ?'
       end
     end
     Gotcha.register_type(NextNumberGotcha)

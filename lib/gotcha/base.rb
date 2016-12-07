@@ -2,7 +2,7 @@ module Gotcha
 
   class Base
 
-    attr_reader :question, :answer
+    attr_reader :answer
 
     # Determine whether or not an answer is correct
     def correct?(str)
@@ -17,6 +17,23 @@ module Gotcha
       text.gsub! /\s+/, ' '
       text.strip!
       text
+    end
+
+    def question
+      I18n.t(i18n_question_key, i18n_interpolations.merge(default: default_i18n_question))
+    end
+
+    def i18n_question_key
+      "gotcha.#{self.class.name.underscore}.question"
+    end
+
+    def default_i18n_question
+      raise NotImplementedError, "#{self.class} must implement #default_i18n_question to be used when translation is not available"
+    end
+
+    # Override in specific gotcha class to pass variables to translated question
+    def i18n_interpolations
+      {}
     end
 
   end
